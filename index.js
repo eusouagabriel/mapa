@@ -9,13 +9,18 @@ function initMap() {
   } else {
     center_position = { lat: -22.9666002, lng: -43.214805 };
   }
-  
-  const map = new google.maps.Map(document.getElementById("map"), {
+
+  const mapOptions = {
     zoom: 13.07,
     center: center_position,
     minZoom: 12.6,
     maxZoom: 17,
-  });
+    mapTypeId: google.maps.MapTypeId.ROADMAP,
+    mapTypeControl: false,
+    streetViewControl: false,
+  };
+  
+  const map = new google.maps.Map(document.getElementById("map"), mapOptions);
   
   // Load the JSON file
   fetch('locations.fixed.json')
