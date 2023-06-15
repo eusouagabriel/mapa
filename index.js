@@ -1,10 +1,9 @@
 function initMap() {
   const urlParams = new URLSearchParams(window.location.search);
   const place = urlParams.get('place');
-  console.log(place)
 
   var center_position = { lat: 0, lng: 0 };
-  if (place === 'sp') {
+  if (place && place === 'sp') {
     center_position = { lat: -23.5640732, lng: -46.6876096 };
   } else {
     center_position = { lat: -22.9666002, lng: -43.214805 };
@@ -14,7 +13,7 @@ function initMap() {
     zoom: 13.07,
     center: center_position,
     minZoom: 12.6,
-    maxZoom: 17,
+    maxZoom: 18,
     mapTypeId: google.maps.MapTypeId.ROADMAP,
     mapTypeControl: false,
     streetViewControl: false,
@@ -41,6 +40,19 @@ function initMap() {
       });
     })
     .catch(error => console.error('Error loading JSON:', error));
+
+  const autocompleteInput = document.getElementById('autocomplete');
+  const autocomplete = new google.maps.places.Autocomplete(autocompleteInput);
+  const marker = new google.maps.Marker({ map });
+  autocomplete.addListener('place_changed', () => {
+    const place = autocomplete.getPlace();
+    if (place.geometry && place.geometry.location) {
+      map.setCenter(place.geometry.location);
+      map.setZoom(mapOptions.maxZoom);
+      marker.setPosition(place.geometry.location);
+      marker.setVisible(true);
+    }
+  });
 }
 
 window.initMap = initMap;
