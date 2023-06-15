@@ -24,7 +24,12 @@ html, body {
   width: 400px;
   padding: 10px;
   border-radius: 10px;
-  border: none;
+  border: 2px solid #00CE7C;
   font-size: 16px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  outline: none;
+}
+
+#autocomplete:focus {
+  border-color: #001F60;
 }
