@@ -5,8 +5,10 @@ function initMap() {
   var center_position = { lat: 0, lng: 0 };
   if (place && place === 'sp') {
     center_position = { lat: -23.5640732, lng: -46.6876096 };
-  } else {
+  } else if (place && place === 'rj') {
     center_position = { lat: -22.9666002, lng: -43.214805 };
+  } else if (place && place === 'nit') {
+    center_position = { lat: -22.8930385, lng: -43.1123505 };
   }
 
   const mapOptions = {
