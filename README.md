@@ -25,9 +25,10 @@ Com esta query os lat e longs são obtidos na ordem correta, ou seja, em um form
 
 ## Demonstração
 Este projeto é exposto automaticamente no endereço https://eusouagabriel.github.io/mapa. Um parâmetro query pode ser usado para mudar a posição inicial do mapa:
-- SP: https://eusouagabriel.github.io/mapa/?place=sp
-- RJ: https://eusouagabriel.github.io/mapa/?place=rj
+- São Paulo: https://eusouagabriel.github.io/mapa/?place=sp
+- Rio de Janeiro: https://eusouagabriel.github.io/mapa/?place=rj
 - Niterói: https://eusouagabriel.github.io/mapa/?place=nit
+- Belo Horizonte: https://eusouagabriel.github.io/mapa/?place=bh
 
 Aqui usamos GitHub Pages para hospedar o mapa e GitHub Actions para atualizar o mapa automaticamente a cada push no repositório.
 
