@@ -9,6 +9,8 @@ function initMap() {
     center_position = { lat: -22.9666002, lng: -43.214805 };
   } else if (place && place === 'nit') {
     center_position = { lat: -22.8930385, lng: -43.1123505 };
+  } else if (place && place === 'mg') {
+    center_position = { lat: -19.9293379, lng: -43.9397740 };
   }
 
   const mapOptions = {
