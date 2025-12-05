@@ -1,36 +1,47 @@
 # Mapa de Instalações Externas da Gabriel
 
 ## Descrição
-A página "Gabriel para Autoridades" tem um mapa embebido que mostra a localização de todas as localidades que possuem câmeras externas da Gabriel. O mapa é gerado a partir de um arquivo JSON obtido por consulta ao banco de dados. 
 
-#### Arquivo JSON
-Um arquivo com uma lista de lat e longs pode ser obtido através da query abaixo:
-```sql
-SELECT 
-	ST_X(l.`point`) AS "lat",
-	ST_Y(l.`point`) AS "lng"
-FROM locations_lat.locations l 
-INNER JOIN surveillance.cameras_locations cl ON cl.locationId = l.id  AND cl.active  
-INNER JOIN surveillance.cameras c ON c.id = cl.cameraId 
-INNER JOIN surveillance.camera_types ct ON ct.id = c.typeId 
-WHERE l.active 
-AND l.enabled 
-AND c.enabled 
-AND ct.name = "External" 
-AND NOT l.isSuspended 
-AND ST_X(l.`point`) > -30 AND  ST_Y(l.`point`) < -30
-GROUP BY l.id
-```
-Com esta query os lat e longs são obtidos na ordem correta, ou seja, em um formato que pode ser usado diretamente no mapa.
+A página "Gabriel para Autoridades" tem um mapa embebido que mostra a localização de todas as localidades que possuem câmeras externas da Gabriel (Camaleões). O mapa é gerado a partir do arquivo `locations.fixed.json`, que é atualizado automaticamente via workflow no n8n.
+
+## Atualização Automática
+
+O arquivo `locations.fixed.json` é atualizado diariamente por um workflow no n8n que:
+
+1. **Autentica** na API Bifrost
+2. **Busca** todos os dispositivos via API com paginação automática (páginas de 1000 itens)
+3. **Transforma** os dados para o formato `[{lat, lng}, ...]`
+4. **Commita** direto neste repositório via API do GitHub
+5. **Notifica** via Slack quando concluído
+
+O workflow roda automaticamente e não requer intervenção manual.
 
 ## Demonstração
-Este projeto é exposto automaticamente no endereço https://eusouagabriel.github.io/mapa. Um parâmetro query pode ser usado para mudar a posição inicial do mapa:
+
+Este projeto é exposto automaticamente no endereço https://eusouagabriel.github.io/mapa. 
+
+Um parâmetro query pode ser usado para mudar a posição inicial do mapa:
+
 - São Paulo: https://eusouagabriel.github.io/mapa/?place=sp
 - Rio de Janeiro: https://eusouagabriel.github.io/mapa/?place=rj
 - Niterói: https://eusouagabriel.github.io/mapa/?place=nit
 - Belo Horizonte: https://eusouagabriel.github.io/mapa/?place=bh
 
-Aqui usamos GitHub Pages para hospedar o mapa e GitHub Actions para atualizar o mapa automaticamente a cada push no repositório.
+O mapa é hospedado via GitHub Pages e atualizado automaticamente a cada push no repositório.
 
-#### Notas
-Sempre há uma confusão que inverte as coordenadas de latitude e longitude. Caso as coordenadas estejam invertidas, o script em `/utils/json-fixer.py` pode ser usado para corrigir isso.
+## Formato do Arquivo
+
+O `locations.fixed.json` contém um array de coordenadas:
+```json
+[
+  {"lat": -23.49173752242143, "lng": -46.61910742521286},
+  {"lat": -22.98670288734682, "lng": -43.20114639275156},
+  ...
+]
+```
+
+## Notas
+
+- O script em `/utils/json-fixer.py` pode ser usado para corrigir inversão de lat/lng se necessário
+- O workflow n8n está configurado no ambiente cloud da Gabriel
+- Em caso de falha no workflow, não haverá notificação no Slack — ausência de mensagem indica problema
