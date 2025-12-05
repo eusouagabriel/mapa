@@ -2,7 +2,7 @@
 
 ## Descrição
 
-A página "Gabriel para Autoridades" tem um mapa embebido que mostra a localização de todas as localidades que possuem câmeras externas da Gabriel (Camaleões). O mapa é gerado a partir do arquivo `locations.fixed.json`, que é atualizado automaticamente via workflow no n8n.
+O site da Gabriel tem um mapa embebido que mostra a localização de todos os CamaleÕes. O mapa é gerado a partir do arquivo `locations.fixed.json`, que é atualizado automaticamente via workflow no n8n.
 
 ## Atualização Automática
 
